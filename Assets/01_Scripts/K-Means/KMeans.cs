@@ -113,6 +113,7 @@ public class KMeans : MonoBehaviour
     }
     #endregion
 
+    #region Algorithm
     private void Step()
     {
         ClearAssignedDataPointsForCentroids();
@@ -159,10 +160,10 @@ public class KMeans : MonoBehaviour
             Centroid centroidComponent = centroid.GetComponent<Centroid>();
             Vector3 newCentroidPosition = centroidComponent.CalculateCenterOfCluster();
 
-            //centroid.transform.position = newCentroidPosition;
             centroid.transform.DOMove(newCentroidPosition, 0.5f).SetEase(Ease.InOutBack);
         }
     }
+    #endregion
 
     private void OnDrawGizmos()
     {
