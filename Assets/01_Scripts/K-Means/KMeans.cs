@@ -11,6 +11,8 @@ public class KMeans : MonoBehaviour
     [Header("Centroid Generation")]
     [SerializeField] GameObject centroidPrefab;
     [SerializeField] GameObject centroidsContainer;
+    [SerializeField] float centroidTweeningSpeed;
+    [SerializeField] Ease centroidTweeningEaseType;
 
     [Header("Data Points Generation")]
     [SerializeField] GameObject dataPointPrefab;
@@ -50,6 +52,7 @@ public class KMeans : MonoBehaviour
     {
         GenerateCentroids();
         GenerateDataPoints();
+        RandomizeCentroidsPositions();
     }
 
     private void GenerateCentroids()
@@ -111,6 +114,18 @@ public class KMeans : MonoBehaviour
         }
         dataPoints.Clear();
     }
+
+    private void RandomizeCentroidsPositions()
+    {
+        foreach(GameObject centroid in centroids)
+        {
+            float x = Random.Range(-boundingBoxDimensions.x / 2, boundingBoxDimensions.x / 2);
+            float y = Random.Range(-boundingBoxDimensions.y / 2, boundingBoxDimensions.y / 2);
+            float z = Random.Range(-boundingBoxDimensions.z / 2, boundingBoxDimensions.z / 2);
+
+            centroid.transform.position = new Vector3(x, y, z);
+        }
+    }
     #endregion
 
     #region Algorithm
@@ -160,7 +175,7 @@ public class KMeans : MonoBehaviour
             Centroid centroidComponent = centroid.GetComponent<Centroid>();
             Vector3 newCentroidPosition = centroidComponent.CalculateCenterOfCluster();
 
-            centroid.transform.DOMove(newCentroidPosition, 0.5f).SetEase(Ease.InOutBack);
+            centroid.transform.DOMove(newCentroidPosition, centroidTweeningSpeed).SetEase(centroidTweeningEaseType);
         }
     }
     #endregion
