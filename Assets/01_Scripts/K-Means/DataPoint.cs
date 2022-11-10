@@ -18,6 +18,6 @@ public class DataPoint : MonoBehaviour
 
     public void UpdateColor()
     {
-        GetComponentInChildren<Renderer>().material.color = color;
+        GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", color);
     }
 }

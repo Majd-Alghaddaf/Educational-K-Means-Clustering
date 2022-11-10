@@ -10,7 +10,7 @@ public class Centroid : MonoBehaviour
 
     private void Start()
     {
-        GetComponentInChildren<Renderer>().material.color = clusterColor;
+        GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", clusterColor);
     }
 
     public void ClearAssignedDataPoints()
