@@ -13,11 +13,6 @@ public class Centroid : MonoBehaviour
         GetComponentInChildren<Renderer>().material.color = clusterColor;
     }
 
-    public void GenerateAndSetNewRandomColor()
-    {
-        clusterColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-    }
-
     public void ClearAssignedDataPoints()
     {
         _assignedDataPoints.Clear();

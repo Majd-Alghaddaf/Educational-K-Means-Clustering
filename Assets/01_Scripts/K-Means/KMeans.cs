@@ -7,24 +7,25 @@ public class KMeans : MonoBehaviour
     [Header("Clusters Configuration")]
     [Space(15f)]
     [SerializeField] private Vector3 boundingBoxDimensions;
+    [SerializeField] private List<Color> clusterColorsList = new List<Color>();
 
     [Header("Centroid Generation")]
     [SerializeField] GameObject centroidPrefab;
     [SerializeField] GameObject centroidsContainer;
-    [SerializeField] float centroidTweeningSpeed;
+    [SerializeField] float timeSpentOnCentroidTweening;
     [SerializeField] Ease centroidTweeningEaseType;
 
     [Header("Data Points Generation")]
     [SerializeField] GameObject dataPointPrefab;
     [SerializeField] GameObject dataPointsContainer;
-    [SerializeField] int minNumOfPointsAroundCentroid;
-    [SerializeField] int maxNumOfPointsAroundCentroid;
-    [SerializeField] float maxDistanceFromDataPointToCentroid;
+    [SerializeField][Range(0,100)] int minNumOfPointsAroundCentroid;
+    [SerializeField][Range(0,100)] int maxNumOfPointsAroundCentroid;
+    [SerializeField][Range(0f,25f)] float maxDistanceFromDataPointToCentroid;
 
     [Space(30f)]
     [Header("K Means Algorithm Variables")]
     [Space(15f)]
-    [SerializeField] int k;
+    [SerializeField][Range(0,10)] int k;
 
     private List<GameObject> centroids = new List<GameObject>();
     private List<GameObject> dataPoints = new List<GameObject>();
@@ -66,7 +67,7 @@ public class KMeans : MonoBehaviour
             float z = Random.Range(-boundingBoxDimensions.z / 2, boundingBoxDimensions.z / 2);
 
             GameObject newCentroid = Instantiate(centroidPrefab, new Vector3(x, y, z), Quaternion.identity, centroidsContainer.transform);
-            newCentroid.GetComponent<Centroid>().GenerateAndSetNewRandomColor();
+            newCentroid.GetComponent<Centroid>().clusterColor = clusterColorsList[i]; 
             centroids.Add(newCentroid);
         }
     }
@@ -175,7 +176,7 @@ public class KMeans : MonoBehaviour
             Centroid centroidComponent = centroid.GetComponent<Centroid>();
             Vector3 newCentroidPosition = centroidComponent.CalculateCenterOfCluster();
 
-            centroid.transform.DOMove(newCentroidPosition, centroidTweeningSpeed).SetEase(centroidTweeningEaseType);
+            centroid.transform.DOMove(newCentroidPosition, timeSpentOnCentroidTweening).SetEase(centroidTweeningEaseType);
         }
     }
     #endregion
