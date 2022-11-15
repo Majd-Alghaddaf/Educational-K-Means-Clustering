@@ -36,20 +36,8 @@ public class KMeans : MonoBehaviour
         GenerateClusters();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            GenerateClusters();
-        }
-        else if(Input.GetKeyDown(KeyCode.A))
-        {
-            Step();
-        }
-    }
-
     #region Clusters Generation
-    private void GenerateClusters()
+    public void GenerateClusters()
     {
         GenerateCentroids();
         GenerateDataPoints();
@@ -130,7 +118,7 @@ public class KMeans : MonoBehaviour
     #endregion
 
     #region Algorithm
-    private void Step()
+    public void Step()
     {
         ClearAssignedDataPointsForCentroids();
 
