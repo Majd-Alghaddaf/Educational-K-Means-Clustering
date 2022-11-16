@@ -25,7 +25,7 @@ public class KMeans : MonoBehaviour
     [Space(30f)]
     [Header("K Means Algorithm Variables")]
     [Space(15f)]
-    [SerializeField][Range(0,10)] int k;
+    [SerializeField][Range(2,10)] int k;
 
     private List<GameObject> centroids = new List<GameObject>();
     private List<GameObject> dataPoints = new List<GameObject>();
