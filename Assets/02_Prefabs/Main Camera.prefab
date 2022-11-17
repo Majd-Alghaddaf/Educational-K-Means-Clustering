@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92fa17caca79ca0449cfc28f847b0987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orbitSpeed: 5
+  orbitSpeed: 2.5
   zoomSpeed: 5
 --- !u!114 &1468599282682625059
 MonoBehaviour:

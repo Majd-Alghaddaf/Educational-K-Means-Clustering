@@ -91,7 +91,7 @@ public class KMeans : MonoBehaviour
 
         foreach (GameObject centroid in centroids)
         {
-            int numOfPointsAroundCentroid = Random.Range(minNumOfPointsAroundCentroid, maxNumOfPointsAroundCentroid);
+            int numOfPointsAroundCentroid = minNumOfPointsAroundCentroid >= maxNumOfPointsAroundCentroid ? minNumOfPointsAroundCentroid : Random.Range(minNumOfPointsAroundCentroid, maxNumOfPointsAroundCentroid);
 
             for (int i = 0; i < numOfPointsAroundCentroid; i++)
             {
