@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class KMeans : MonoBehaviour
 {
@@ -27,8 +28,14 @@ public class KMeans : MonoBehaviour
     [Space(15f)]
     [SerializeField][Range(2,10)] int k;
 
+    [Space(30f)]
+    [Header("Variable References")]
+    [Space(15f)]
+    [SerializeField] TextMeshProUGUI sseValueText;
+
     private List<GameObject> centroids = new List<GameObject>();
     private List<GameObject> dataPoints = new List<GameObject>();
+    private float _sse = 0;
 
     #region Singleton
     private static KMeans _instance;
@@ -58,6 +65,7 @@ public class KMeans : MonoBehaviour
         GenerateCentroids();
         GenerateDataPoints();
         RandomizeCentroidsPositions();
+        UpdateSSEValueText();
     }
 
     private void GenerateCentroids()
@@ -163,6 +171,8 @@ public class KMeans : MonoBehaviour
         }
 
         UpdateCentroidsPositions();
+        CalculateSSE();
+        UpdateSSEValueText();
     }
 
     private void ClearAssignedDataPointsForCentroids()
@@ -182,6 +192,25 @@ public class KMeans : MonoBehaviour
 
             centroid.transform.DOMove(newCentroidPosition, timeSpentOnCentroidTweening).SetEase(centroidTweeningEaseType);
         }
+    }
+
+    private void CalculateSSE()
+    {
+        _sse = 0;
+        foreach(GameObject centroid in centroids)
+        {
+            Centroid centroidComponent = centroid.GetComponent<Centroid>();
+            foreach(GameObject dataPoint in centroidComponent.GetAssignedDataPoints())
+            {
+                _sse += (centroid.transform.position - dataPoint.transform.position).sqrMagnitude;
+            }
+        }
+    }
+
+    private void UpdateSSEValueText()
+    {
+        sseValueText.text = _sse == 0 ? "" : _sse.ToString();
+
     }
     #endregion
 

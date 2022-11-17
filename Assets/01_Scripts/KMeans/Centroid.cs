@@ -23,6 +23,11 @@ public class Centroid : MonoBehaviour
         _assignedDataPoints.Add(newlyAssignedDataPoint);
     }
 
+    public List<GameObject> GetAssignedDataPoints()
+    {
+        return _assignedDataPoints;
+    }
+
     public Vector3 CalculateCenterOfCluster()
     {
         Vector3 centerOfClusterPosition = Vector3.zero;
