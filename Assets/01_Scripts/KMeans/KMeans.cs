@@ -30,6 +30,22 @@ public class KMeans : MonoBehaviour
     private List<GameObject> centroids = new List<GameObject>();
     private List<GameObject> dataPoints = new List<GameObject>();
 
+    #region Singleton
+    private static KMeans _instance;
+    public static KMeans Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+    #endregion
 
     private void Start()
     {
@@ -169,9 +185,13 @@ public class KMeans : MonoBehaviour
     }
     #endregion
 
-    private void OnDrawGizmos()
-    {
-        // Bounding Box
-        Gizmos.DrawWireCube(Vector3.zero, boundingBoxDimensions);
-    }
+    #region Config Settings Setters
+    public void SetKValue(int value) => k = value;
+    public void SetBoundingBoxSizeX(int value) => boundingBoxDimensions = new Vector3(value, boundingBoxDimensions.y, boundingBoxDimensions.z);
+    public void SetBoundingBoxSizeY(int value) => boundingBoxDimensions = new Vector3(boundingBoxDimensions.x, value, boundingBoxDimensions.z);
+    public void SetBoundingBoxSizeZ(int value) => boundingBoxDimensions = new Vector3(boundingBoxDimensions.x, boundingBoxDimensions.y, value);
+    public void SetMinNumOfPointsAroundCentroid(int value) => minNumOfPointsAroundCentroid = value;
+    public void SetMaxNumOfPointsAroundCentroid(int value) => maxNumOfPointsAroundCentroid = value;
+    public void SetMaxDistanceFromDataPointToCentroid(float value) => maxDistanceFromDataPointToCentroid = value;
+    #endregion
 }
