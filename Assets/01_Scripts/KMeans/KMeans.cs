@@ -21,7 +21,7 @@ public class KMeans : MonoBehaviour
     [SerializeField] GameObject dataPointsContainer;
     [SerializeField][Range(0,100)] int minNumOfPointsAroundCentroid;
     [SerializeField][Range(0,100)] int maxNumOfPointsAroundCentroid;
-    [SerializeField][Range(0f,25f)] float maxDistanceFromDataPointToCentroid;
+    [SerializeField][Range(0,25)] int maxDistanceFromDataPointToCentroid;
 
     [Space(30f)]
     [Header("K Means Algorithm Variables")]
@@ -221,6 +221,6 @@ public class KMeans : MonoBehaviour
     public void SetBoundingBoxSizeZ(int value) => boundingBoxDimensions = new Vector3(boundingBoxDimensions.x, boundingBoxDimensions.y, value);
     public void SetMinNumOfPointsAroundCentroid(int value) => minNumOfPointsAroundCentroid = value;
     public void SetMaxNumOfPointsAroundCentroid(int value) => maxNumOfPointsAroundCentroid = value;
-    public void SetMaxDistanceFromDataPointToCentroid(float value) => maxDistanceFromDataPointToCentroid = value;
+    public void SetMaxDistanceFromDataPointToCentroid(int value) => maxDistanceFromDataPointToCentroid = value;
     #endregion
 }
