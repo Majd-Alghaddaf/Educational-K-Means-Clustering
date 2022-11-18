@@ -190,6 +190,9 @@ public class KMeans : MonoBehaviour
             Centroid centroidComponent = centroid.GetComponent<Centroid>();
             Vector3 newCentroidPosition = centroidComponent.CalculateCenterOfCluster();
 
+            if (float.IsNaN(newCentroidPosition.x) || float.IsNaN(newCentroidPosition.y) || float.IsNaN(newCentroidPosition.z))
+                continue;
+
             centroid.transform.DOMove(newCentroidPosition, timeSpentOnCentroidTweening).SetEase(centroidTweeningEaseType);
         }
     }
