@@ -28,6 +28,7 @@ public class KMeans : MonoBehaviour
     [Header("K Means Algorithm Variables")]
     [Space(15f)]
     [SerializeField][Range(2,10)] int k;
+    [SerializeField] bool kmeansplusplus;
 
     [Space(30f)]
     [Header("Variable References")]
@@ -65,7 +66,14 @@ public class KMeans : MonoBehaviour
     {
         GenerateCentroids();
         GenerateDataPoints();
-        KMeansPlusPlus();
+        if(kmeansplusplus)
+        {
+            KMeansPlusPlus();
+        }
+        else
+        {
+            RandomizeCentroidsPositions();
+        }
         UpdateSSEValueText();
     }
 
@@ -127,6 +135,18 @@ public class KMeans : MonoBehaviour
             Destroy(dataPoint);
         }
         dataPoints.Clear();
+    }
+
+    private void RandomizeCentroidsPositions()
+    {
+        foreach (GameObject centroid in centroids)
+        {
+            float x = Random.Range(-boundingBoxDimensions.x / 2, boundingBoxDimensions.x / 2);
+            float y = Random.Range(-boundingBoxDimensions.y / 2, boundingBoxDimensions.y / 2);
+            float z = Random.Range(-boundingBoxDimensions.z / 2, boundingBoxDimensions.z / 2);
+
+            centroid.transform.position = new Vector3(x, y, z);
+        }
     }
 
     private void KMeansPlusPlus()
@@ -277,5 +297,7 @@ public class KMeans : MonoBehaviour
     public void SetMinNumOfPointsAroundCentroid(int value) => minNumOfPointsAroundCentroid = value;
     public void SetMaxNumOfPointsAroundCentroid(int value) => maxNumOfPointsAroundCentroid = value;
     public void SetMaxDistanceFromDataPointToCentroid(int value) => maxDistanceFromDataPointToCentroid = value;
+
+    public void SetKMeansPlusPlus(bool value) => kmeansplusplus = value;
     #endregion
 }

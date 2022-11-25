@@ -580,12 +580,12 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1583804337}
-    - target: {fileID: 889693447315327311, guid: 05ccbd04e33d7de4496ee3aac0a8a669, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GenerateClusters
-      objectReference: {fileID: 0}
     - target: {fileID: 1297993981842849274, guid: 05ccbd04e33d7de4496ee3aac0a8a669, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1583804337}
+    - target: {fileID: 2009897029967074379, guid: 05ccbd04e33d7de4496ee3aac0a8a669, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1583804337}
     - target: {fileID: 2579940871588564800, guid: 05ccbd04e33d7de4496ee3aac0a8a669, type: 3}
