@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
+using System.Linq;
 
 public class KMeans : MonoBehaviour
 {
@@ -64,7 +65,7 @@ public class KMeans : MonoBehaviour
     {
         GenerateCentroids();
         GenerateDataPoints();
-        RandomizeCentroidsPositions();
+        KMeansPlusPlus();
         UpdateSSEValueText();
     }
 
@@ -128,15 +129,66 @@ public class KMeans : MonoBehaviour
         dataPoints.Clear();
     }
 
-    private void RandomizeCentroidsPositions()
+    private void KMeansPlusPlus()
     {
-        foreach(GameObject centroid in centroids)
+        Dictionary<GameObject, GameObject> dataPointToNearestChosenCentroid = new Dictionary<GameObject, GameObject>();
+        foreach(GameObject dataPoint in dataPoints)
         {
-            float x = Random.Range(-boundingBoxDimensions.x / 2, boundingBoxDimensions.x / 2);
-            float y = Random.Range(-boundingBoxDimensions.y / 2, boundingBoxDimensions.y / 2);
-            float z = Random.Range(-boundingBoxDimensions.z / 2, boundingBoxDimensions.z / 2);
+            dataPointToNearestChosenCentroid.Add(dataPoint, centroids[0]);
+        }
 
-            centroid.transform.position = new Vector3(x, y, z);
+        for (int i = 0; i < k; i++)
+        {
+            if(i == 0) // if first centroid, choose random datapoint
+            {
+                int randomIndex = Random.Range(0, dataPointToNearestChosenCentroid.Count);
+                centroids[i].transform.position = dataPointToNearestChosenCentroid.ElementAt(randomIndex).Key.transform.position;
+                dataPointToNearestChosenCentroid.Remove(dataPointToNearestChosenCentroid.ElementAt(randomIndex).Key);
+            }
+            else
+            {
+                float totalSqrMagnitude = 0;
+                for (int j = 0; j < dataPointToNearestChosenCentroid.Count; j++)
+                {
+                    // initializing
+                    GameObject closestChosenCentroidToDataPoint = centroids[0];
+                    GameObject dataPointCopy = dataPointToNearestChosenCentroid.ElementAt(j).Key;
+                    float shortestSqrMagnitude = (centroids[0].transform.position - dataPointCopy.transform.position).sqrMagnitude;
+
+                    for (int l = 1; l < i; l++) // uniquely looping through the already chosen centroids
+                    {
+                        float sqrMagnitude = (centroids[l].transform.position - dataPointCopy.transform.position).sqrMagnitude;
+
+                        if (sqrMagnitude < shortestSqrMagnitude)
+                        {
+                            shortestSqrMagnitude = sqrMagnitude;
+                            closestChosenCentroidToDataPoint = centroids[l];
+                        }
+                    }
+
+                    totalSqrMagnitude += shortestSqrMagnitude;
+                    dataPointToNearestChosenCentroid[dataPointCopy] = closestChosenCentroidToDataPoint;
+                }
+                // at this point, every key value pair should have a datapoint and its nearest chosen centroid
+                // we continue by applying a weighted probability distribution
+                float randomNumber = Random.Range(0, totalSqrMagnitude);
+
+                GameObject selectedDataPoint = dataPointToNearestChosenCentroid.ElementAt(0).Key;
+                for (int j = 0; j < dataPointToNearestChosenCentroid.Count; j++)
+                {
+                    float weight = (dataPointToNearestChosenCentroid.ElementAt(j).Value.transform.position - dataPointToNearestChosenCentroid.ElementAt(j).Key.transform.position).sqrMagnitude;
+                    if (randomNumber < weight)
+                    {
+                        selectedDataPoint = dataPointToNearestChosenCentroid.ElementAt(j).Key;
+                        break;
+                    }
+
+                    randomNumber = randomNumber - weight;
+                }
+
+                centroids[i].transform.position = selectedDataPoint.transform.position;
+                dataPointToNearestChosenCentroid.Remove(selectedDataPoint);
+            }
         }
     }
     #endregion
